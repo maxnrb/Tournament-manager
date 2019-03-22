@@ -11,6 +11,3 @@ include "../config/bddInfo.php";
 echo "<h1>Acceuil</h1>";
 
 echo "<h2>Connexion</h2>";
-
-bddInfo::setDbName("test");
-echo bddInfo::getDbName();

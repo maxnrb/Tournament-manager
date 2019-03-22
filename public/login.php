@@ -6,8 +6,6 @@
  * Time: 14:13
  */
 
-include "../config/bddInfo.php";
-
 session_start();
 
 function badPassword() { echo "Mot de passe incorrect !<br><br>"; }
@@ -27,11 +25,9 @@ if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
     }
     $_SESSION['csrf_token'] = $token;
 
-    echo bddInfo::getDbName();
-
     ?>
     <h1>Login :</h1>
-    <form action=".php?form=login" method="post">
+    <form action="../src/controller/controller_form.php?form=login" method="post">
         <input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
 
         <label>Username :<br>
