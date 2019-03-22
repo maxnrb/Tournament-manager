@@ -6,4 +6,6 @@
  * Time: 09:36
  */
 
-echo "test";
+echo "<h1>Acceuil</h1>";
+
+echo "<h2>Connexion</h2>";
