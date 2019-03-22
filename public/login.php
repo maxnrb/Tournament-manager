@@ -6,6 +6,8 @@
  * Time: 14:13
  */
 
+include "../config/bddInfo.php";
+
 session_start();
 
 function badPassword() { echo "Mot de passe incorrect !<br><br>"; }
@@ -24,6 +26,8 @@ if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
         // TODO : Add action
     }
     $_SESSION['csrf_token'] = $token;
+
+    echo bddInfo::getDbName();
 
     ?>
     <h1>Login :</h1>
