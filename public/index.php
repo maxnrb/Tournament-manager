@@ -6,8 +6,18 @@
  * Time: 09:36
  */
 
-include "../config/bddInfo.php";
+session_start();
 
-echo "<h1>Acceuil</h1>";
+$link_login = "login.php";
 
-echo "<h2>Connexion</h2>";
+echo "<h1>Home</h1>";
+
+echo "<h3><a title='login' href='$link_login'>Login</a></h3>";
+
+if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
+    echo "<h3><a title='admin' href='admin/'>Admin</a></h3>";
+
+    //echo "<a title='disconnect' href='controller.php?action=disconnect'>Disconnect</a>";
+
+    var_dump($_SESSION);
+}
