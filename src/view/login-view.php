@@ -1,32 +1,65 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Max
- * Date: 24/03/2019
- * Time: 22:48
- */
-
-try {
-    $CSRF_token = bin2hex(random_bytes(32));
-    $_SESSION['CSRF_token'] = $CSRF_token;
-} catch (Exception $e) {
-    // TODO : Add action
-}
-
-
+define('BASE_URL', dirname(dirname($_SERVER['SCRIPT_NAME'])));
 ?>
-<h1>Login :</h1>
-<form action='' method='post'>
-    <input type='hidden' name='CSRF_token' value='<?php echo $CSRF_token; ?>'>
 
-    <label>Username :<br>
-        <input type='text' name='username' required/><br>
-    </label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1">
 
-    <label>Password :<br>
-        <input type='password' pattern='.{5,}' name='password' id='password' title='6 characters min.' required/><br>
-    </label>
+	<link rel="stylesheet" type="text/css" href="<?php echo BASE_URL.'/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css'; ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo BASE_URL.'/assets/css/login/util.css'; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL.'/assets/css/login/main.css'; ?>">
 
-    <br>
-    <input type='submit' value='Submit'/>
-</form>
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+				<form action='' method='post' class="login100-form flex-sb flex-w">
+					<input type='hidden' name='CSRF_token' value='<?php echo $CSRF_token; ?>'>
+
+					<span class="login100-form-title p-b-32">
+						Admin Login
+					</span>
+
+					<span class="txt1 p-b-11">
+						Username
+					</span>
+					<div class="wrap-input100 m-b-36">
+						<input class="input100" type="text" name="username" required>
+						<span class="focus-input100"></span>
+					</div>
+					
+					<span class="txt1 p-b-11">
+						Password
+					</span>
+					<div class="wrap-input100 m-b-40">
+						<span class="btn-show-pass">
+							<i class="fa fa-eye"></i>
+						</span>
+						<input class="input100" type="password" name="password" pattern='.{5,}' title='5 characters min.' required>
+						<span class="focus-input100"></span>
+					</div>
+
+
+					<div class="container-login100-form-btn">
+						<button type="submit" value="submit" class="login100-form-btn">
+							Login
+						</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="<?php echo BASE_URL.'/assets/js/jquery-3.2.1.min.js'; ?>"></script>
+	<script src="<?php echo BASE_URL.'/assets/js/login/main.js'; ?>"></script>
+
+</body>
+</html>

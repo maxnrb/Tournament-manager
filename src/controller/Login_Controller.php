@@ -43,11 +43,18 @@ class Login_Controller {
                     } catch (Exception $exception) {
                         // TODO Add treatment
                     }
-                    //redirect('/Tournament-manager/public/admin/index.php');
+                    //redirect('/Tournament-manager/public/admin/login-view.php');
                 }
             }
         } else {
-            require_once(dirname(__DIR__).'/view/login-view.php');
+            try {
+                $CSRF_token = bin2hex(random_bytes(32));
+                $_SESSION['CSRF_token'] = $CSRF_token;
+            } catch (Exception $e) {
+                // TODO : Add action
+            }
+
+            require_once(dirname(__DIR__) . '/view/login-view.php');
         }
     }
 }
