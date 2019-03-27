@@ -35,7 +35,6 @@ class Login_Controller {
 
                     $_SESSION['loggedIn'] = true;
                     $_SESSION['admin_id'] = $data['admin_id'];
-                    $_SESSION['right_level'] = $data['right_level'];
                     $_SESSION['username'] = $username;
 
                     try {
