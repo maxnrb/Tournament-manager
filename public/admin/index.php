@@ -11,4 +11,7 @@ require_once(dirname(dirname(__DIR__)) . '/src/controller/Session_Controller.php
 $sessionController = new Session_Controller();
 $sessionController->protectedPage();
 
-echo "salut";
+echo "<h3><a title='home' href='../'>Home</a></h3>" .
+    "<h2>Tournaments</h2>" .
+    "<h3><a title='new tournament' href='new_tournament.php'>New tournament</a></h3>";
+

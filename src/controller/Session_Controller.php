@@ -7,6 +7,7 @@
  */
 
 require(dirname(__DIR__) . '/model/Session_Model.php');
+require(dirname(__DIR__) . '/model/UtilFunc_Model.php');
 
 class Session_Controller {
     private $sessionModel;
@@ -18,6 +19,7 @@ class Session_Controller {
     public function checkDisconnect() {
         if( isset($_GET['action'])  && $_GET['action'] == 'disconnect' ) {
             $this->sessionModel->disconnection();
+            UtilFunc_Model::redirect('/Tournament-manager/public/');
         }
     }
 

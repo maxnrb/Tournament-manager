@@ -27,6 +27,12 @@ define('BASE_URL', dirname(dirname($_SERVER['SCRIPT_NAME'])));
 					</span>
 
 					<span class="txt1 p-b-11">
+                        <?php
+                        if($error_msg != null) {
+                            echo '<h3 style="color: red">' . $error_msg . '</h3><br>';
+                        }
+                        ?>
+
 						Username
 					</span>
 					<div class="wrap-input100 m-b-36">
