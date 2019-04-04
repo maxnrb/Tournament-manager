@@ -6,6 +6,8 @@
  * Time: 09:04
  */
 
+require_once('DB_Model.php');
+
 class NewTeam_Model {
     public function verifyAvailabilityName($name) {
         $dbModel = new DB_Model();

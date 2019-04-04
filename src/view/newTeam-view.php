@@ -11,11 +11,11 @@
     <input type="hidden" name="CSRF_token" value="<?php echo $CSRF_token; ?>">
 
     <label>Team name (unique) :<br>
-        <input type="text" name="name" required/><br>
+        <input type="text" name="name" required/><br><br>
     </label>
 
     <label>Picture :<br>
-        <input type="file" name="picture_path" accept="image/png, image/jpeg" required>
+        <input type="file" name="logo" accept="image/png, image/jpeg" required><br>
     </label>
 
     <br>
