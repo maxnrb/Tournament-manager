@@ -13,6 +13,5 @@ $sessionController->protectedPage();
 
 echo "<h3><a title='home' href='../'>Home</a></h3>" .
     "<h2>Tournaments</h2>" .
-    "<h3><a title='new_tournament' href='new_tournament.php'>New tournament</a></h3>" .
-    "<h3><a title='new_team' href='new_team.php'>New team</a></h3>";
+    "<h3><a title='new tournament' href='new_tournament.php'>New tournament</a></h3>";
 
