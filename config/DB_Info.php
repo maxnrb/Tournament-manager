@@ -11,5 +11,7 @@ class DB_Info {
     protected $dbName = "tournament_manager";
     protected $username = "TMUser";
     protected $password = "ZYYNx3L6hJ8T2VYdg9Du";
+
 }
+
 
