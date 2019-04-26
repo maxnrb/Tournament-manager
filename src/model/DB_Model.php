@@ -17,6 +17,7 @@ class DB_Model extends DB_Info {
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
             throw $e;
+            // TODO Add error if connection to DB is impossible
         }
     }
 

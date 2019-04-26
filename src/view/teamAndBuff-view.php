@@ -23,7 +23,11 @@ foreach ($teams as $team) {
     $team_id = $team['team_id'];
     echo "<td>";
     echo '<a href="view-admin.php?action=deleteStudent&id=' . $team_id . '" style="text-decoration: none">Suppr </a>' .
-        '<a href="view-edit_etudiant.php?action=getStudent&id=' . $team_id . '" style="text-decoration: none"> Edit</a>';
+        '<a href="view-edit_etudiant.php?action=getStudent&id=' . $team_id . '" style="text-decoration: none"> Edit </a>' .
+        '<form method="POST" action="">
+            <input type="hidden" name="team_id" value=' . $team_id . '>
+            <input type="submit" value="Add to Tourn">
+        </form>';
 
     echo "</td>" . "</tr>";
 }

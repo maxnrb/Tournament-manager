@@ -9,4 +9,4 @@
 require_once(dirname(dirname(__DIR__)) . '/src/controller/TeamList_Controller.php');
 
 $TeamList_Controller = new TeamList_Controller();
-$TeamList_Controller->printTeamList();
+$TeamList_Controller->printAllTeams();
