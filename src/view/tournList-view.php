@@ -15,10 +15,8 @@
     </tr>
 <?php
 
-foreach ($tournaments as $tournament) {
-    foreach ($tournament as $cle => $value) {
-        echo "<td>" . $value . "</td>";
-    }
+foreach ($tournamentsObj as $tournament) {
+        echo "<td>" . $tournament->getTournamentId() . "</td>";
 
     $tournament_id = $tournament['tournament_id'];
     echo "<td>";
