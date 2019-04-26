@@ -41,13 +41,6 @@ class Newadmin_Controller extends NewAdmin_Model {
                 $password = htmlentities($_POST['password']);
                 $confirmPassword = htmlentities($_POST['confirmPassword']);
 
-                /*$data = $this->newAdminModel->getDataUser($username);
-
-                if(!$data) {
-                    $this->printAdminView('Bad username');
-                    echo ('5');
-                    exit();
-                }*/
 
                 if( $password == $confirmPassword ) {
                     $hash = password_hash($password, PASSWORD_DEFAULT);
