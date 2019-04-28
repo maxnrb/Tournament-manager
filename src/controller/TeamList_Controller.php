@@ -7,34 +7,44 @@
  */
 
 require(dirname(__DIR__) . '/model/TeamList_Model.php');
+require(dirname(__DIR__) . '/model/BufferList_Model.php');
+
+if (session_status() == PHP_SESSION_NONE) { session_start(); }
 
 class TeamList_Controller {
-    private $TeamList_Model;
-
-    private function getAllTeams() {
-        return $this->TeamList_Model->fetchAllTeams();
-    }
+    private $teamList_Model;
+    private $bufferList_Model;
 
     public function __construct() {
-        $this->TeamList_Model = new TeamList_Model();
+        $this->teamList_Model = new TeamList_Model();
     }
 
     public function printAllTeams() {
-        $teams = $this->getAllTeams();
+        $this->teamList_Model->loadAllTeams();
+        $teamList = $this->teamList_Model->getTeamList();
 
-        if ($teams != null) {
+        if ($teamList != null) {
             require_once(dirname(__DIR__) . '/view/allTeam-view.php');
         } else {
             echo "Aucune équipe !";
         }
     }
 
-    public function printTeamAndBuff($bufferTeams) {
-        $teams = $this->getAllTeams();
+    public function printTeamAndBuff() {
+        $this->teamList_Model->loadAllTeams();
 
-        
+        $this->bufferList_Model = new BufferList_Model();
+        $this->bufferList_Model->loadByTournamentId( $_SESSION['edit_tournament_id'] );
 
-        if ($teams != null) {
+        $bufferList = $this->bufferList_Model->getBufferList();
+        $this->teamList_Model->parseWithBufferList($bufferList);
+
+        $addTeamList = $this->teamList_Model->getAddTeamList();
+        $teamList = $this->teamList_Model->getTeamList();
+
+        var_dump($addTeamList);
+
+        if ($teamList != null) {
             require_once(dirname(__DIR__) . '/view/teamAndBuff-view.php');
         } else {
             echo "Aucune équipe !";

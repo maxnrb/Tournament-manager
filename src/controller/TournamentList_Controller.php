@@ -6,29 +6,22 @@
  * Time: 08:36
  */
 
-require(dirname(__DIR__) . '/model/TournamentList_Model.php');
-require(dirname(__DIR__) . '/model/Tournament_Model.php');
+require_once(dirname(__DIR__) . '/model/TournamentList_Model.php');
+
+session_start();
 
 
 class TournamentList_Controller {
-    private $TournamentList_Model;
-    private $tournamentsObj = array();
+    private $tournamentList_Model;
 
     public function __construct() {
-        $this->TournamentList_Model = new TournamentList_Model();
+        $this->tournamentList_Model = new TournamentList_Model();
     }
 
     public function printTournamentList() {
-        $tournaments = $this->TournamentList_Model->fetchAllTournaments();
+        $this->tournamentList_Model->loadAllTournaments();
+        $tournamentList = $this->tournamentList_Model->getTournamentList();
 
-        if ($tournaments != null) {
-            foreach ($tournaments as $tournament) {
-                $this->tournamentsObj[ $tournament['tournament_id'] ] = new Tournament_Model($tournament);
-            }
-
-            require_once(dirname(__DIR__) . '/view/tournList-view.php');
-        } else {
-            echo "Aucun tournois !";
-        }
+        require_once(dirname(__DIR__) . '/view/tournList-view.php');
     }
 }

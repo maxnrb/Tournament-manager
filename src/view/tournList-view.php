@@ -7,7 +7,7 @@
  */
 ?>
 
-<table class="orders_details" width="40%" border="0" cellspacing="0" cellpadding="5" style="text-align:center">
+    <table class="orders_details" width="40%" border="0" cellspacing="0" cellpadding="5" style="text-align:center">
     <tr>
         <th>Tourn ID</th>
         <th>Tourn Name</th>
@@ -15,13 +15,20 @@
     </tr>
 <?php
 
-foreach ($tournamentsObj as $tournament) {
-        echo "<td>" . $tournament->getTournamentId() . "</td>";
+foreach ($tournamentList as $tournament) {
+    $tournament_id = $tournament->getTournamentId();
 
-    $tournament_id = $tournament['tournament_id'];
-    echo "<td>";
-    echo '<a href="view-admin.php?action=deleteStudent&id=' . $tournament_id . '" style="text-decoration: none">Suppr </a>' .
-        '<a href="view-edit_etudiant.php?action=getStudent&id=' . $tournament_id . '" style="text-decoration: none"> Edit</a>';
+    echo "<td>" . $tournament_id . "</td>" .
+        "<td>" . $tournament->getName() . "</td>" .
+        "<td>" . $tournament->getNbTeams() . "</td>" .
+        "<td>" .
+
+        '<form method="POST" action="edit_tournament.php">
+            <input type="hidden" name="tournament_id" value=' . $tournament_id . '>
+            <input type="submit" value="Edit">
+        </form>' .
+        '<a href="view-admin.php?action=deleteStudent&id=' . $tournament_id . '" style="text-decoration: none"> Suppr</a>';
+
 
     echo "</td>" . "</tr>";
 }

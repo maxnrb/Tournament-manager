@@ -15,12 +15,13 @@
         </tr>
 <?php
 
-foreach ($teams as $team) {
-    foreach ($team as $cle => $value) {
-        echo "<td>" . $value . "</td>";
-    }
+foreach ($teamList as $team) {
+    $team_id = $team->getTeamId();
 
-    $team_id = $team['team_id'];
+    echo "<td>" . $team_id . "</td>" .
+        "<td>" . $team->getName() . "</td>" .
+        "<td>" . $team->getPicturePath() . "</td>";
+
     echo "<td>";
     echo '<a href="view-admin.php?action=deleteStudent&id=' . $team_id . '" style="text-decoration: none">Suppr </a>' .
         '<a href="view-edit_etudiant.php?action=getStudent&id=' . $team_id . '" style="text-decoration: none"> Edit </a>';

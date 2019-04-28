@@ -6,18 +6,44 @@
  * Time: 08:42
  */
 
+require_once('DB_Model.php');
+
 class Tournament_Model {
     private $tournament_id;
     private $name;
     private $nb_teams;
 
-    public function __construct(array $tournament = null) {
-        if($tournament != null) {
-            $this->hydrate($tournament);
-        }
+    public function __construct() {}
+
+    public static function getByID($tournament_id) {
+        $tournament = new self();
+        $tournament->loadByID($tournament_id);
+
+        return $tournament;
     }
 
-    function hydrate(array $tournament) {
+    public static function getByName($name) {
+        // TODO To implement
+    }
+
+    public static function loadFromArray($tournamentInfo = array()) {
+        $tournament = new self();
+        $tournament->hydrate($tournamentInfo);
+
+        return $tournament;
+    }
+
+    protected function loadByID($tournament_id) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT * FROM tournament WHERE tournament_id=$tournament_id");
+        $query->execute();
+        $tournament = $query->fetch(PDO::FETCH_ASSOC);
+
+        $this->hydrate($tournament);
+    }
+
+    public function hydrate(array $tournament) {
         if(isset($tournament['tournament_id'])) {
             $this->setTournamentId($tournament['tournament_id']);
         }
@@ -35,29 +61,15 @@ class Tournament_Model {
     public function setName($name) { $this->name = $name; }
     public function setNbTeams($nb_teams) { $this->nb_teams = $nb_teams; }
 
-    /**
-     * @return mixed
-     */
-    public function getTournamentId()
-    {
-        return $this->tournament_id;
+    public function getTournamentId() { return $this->tournament_id; }
+    public function getName() { return $this->name; }
+    public function getNbTeams() { return $this->nb_teams; }
+
+
+    public static function editTournamentName($tournament_id, $newName) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("UPDATE tournament SET name='$newName' WHERE tournament_id='$tournament_id'");
+        $query->execute();
     }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNbTeams()
-    {
-        return $this->nb_teams;
-    }
-
-
 }
