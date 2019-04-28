@@ -47,6 +47,6 @@ class Buffer_Model {
         $query->execute();
         $data = $query->fetch(PDO::FETCH_ASSOC);
 
-        var_dump($data);
+        return $data['nb'];
     }
 }

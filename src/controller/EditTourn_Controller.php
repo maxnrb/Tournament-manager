@@ -38,8 +38,6 @@ class EditTourn_Controller {
             Buffer_Model::addBufferTeam($this->tournament->getTournamentId(), $_POST['team_id']);
         }
 
-        Buffer_Model::getNbAddTeam($_SESSION['edit_tournament_id']);
-
         $TeamList_Controller = new TeamList_Controller();
         $TeamList_Controller->printTeamAndBuff();
     }

@@ -6,8 +6,7 @@
  * Time: 09:15
  */
 
-require(dirname(__DIR__) . '/model/TeamList_Model.php');
-require(dirname(__DIR__) . '/model/BufferList_Model.php');
+require_once(dirname(__DIR__) . '/model/TeamList_Model.php');
 
 if (session_status() == PHP_SESSION_NONE) { session_start(); }
 
@@ -32,15 +31,10 @@ class TeamList_Controller {
 
     public function printTeamAndBuff() {
         $this->teamList_Model->loadAllTeams();
+        $this->teamList_Model->parseFromBufferTeams( $_SESSION['edit_tournament_id'] );
 
-        $this->bufferList_Model = new BufferList_Model();
-        $this->bufferList_Model->loadByTournamentId( $_SESSION['edit_tournament_id'] );
-
-        $bufferList = $this->bufferList_Model->getBufferList();
-        $this->teamList_Model->parseWithBufferList($bufferList);
-
-        $addTeamList = $this->teamList_Model->getAddTeamList();
         $teamList = $this->teamList_Model->getTeamList();
+        $addTeamList = $this->teamList_Model->getAddTeamList();
 
         var_dump($addTeamList);
 

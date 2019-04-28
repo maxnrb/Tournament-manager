@@ -72,4 +72,31 @@ class Tournament_Model {
         $query = $dbModel->getConnection()->prepare("UPDATE tournament SET name='$newName' WHERE tournament_id='$tournament_id'");
         $query->execute();
     }
+
+    public static function getNbTeamsTournament($tournament_id) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT nb_teams FROM tournament WHERE tournament_id='$tournament_id'");
+        $query->execute();
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $data['nb_teams'];
+    }
+
+    public static function setTournamentGenerated($tournament_id) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("UPDATE tournament SET generate=true WHERE tournament_id='$tournament_id'");
+        $query->execute();
+    }
+
+    public static function getGenerationStat($tournament_id) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT generate FROM tournament WHERE tournament_id='$tournament_id'");
+        $query->execute();
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $data['generate'];
+    }
 }
