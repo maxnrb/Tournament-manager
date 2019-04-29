@@ -25,6 +25,18 @@ class DB_Model extends DB_Info {
         return $this->connection;
     }
 
+    public function verifyAvailabilityName($name, $tableName) {
+        $query = $this->getConnection()->prepare("SELECT count(*) FROM $tableName WHERE name =?");
+        $query->execute(array($name));
+        $data = $query->fetch();
+
+        if($data['count(*)'] != 0) {        // Team name already used in bdd
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function __destruct() {
         $this->connection = null;
     }

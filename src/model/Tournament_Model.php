@@ -99,4 +99,17 @@ class Tournament_Model {
 
         return $data['generate'];
     }
+
+    public static function verifyAvailabilityName($name) {
+        $dbModel = new DB_Model();
+
+        return $dbModel->verifyAvailabilityName($name, 'tournament');
+    }
+
+    public static function addNewTournament($name, $nb_teams) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare('INSERT INTO tournament (name, nb_teams) VALUES (:name, :nb_teams)');
+        $query->execute(array(':name' => "$name", ':nb_teams' => "$nb_teams"));
+    }
 }

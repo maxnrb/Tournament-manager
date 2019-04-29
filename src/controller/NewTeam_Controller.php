@@ -8,10 +8,10 @@
 
 session_start();
 
-require(dirname(__DIR__) . '/model/NewTeam_Model.php');
+require(dirname(__DIR__) . '/model/Team_Model.php');
 
 
-class NewTeam_Controller extends NewTeam_Model {
+class NewTeam_Controller {
     private function printForm() {
         try {
             $CSRF_token = bin2hex(random_bytes(32));
@@ -28,7 +28,7 @@ class NewTeam_Controller extends NewTeam_Model {
             if (isset($_POST['CSRF_token']) AND $_SESSION['CSRF_token'] == $_POST['CSRF_token']) {       // Verification of CRSF Token
                 $name = htmlentities($_POST['name']);
 
-                if(!$this->verifyAvailabilityName($name)) {
+                if(!Team_Model::verifyAvailabilityName($name)) {
                     $this->printForm();
                     exit();
                 }
@@ -65,7 +65,7 @@ class NewTeam_Controller extends NewTeam_Model {
 
 
                 if( move_uploaded_file($_FILES['logo']['tmp_name'], $dest) ) {
-                    $this->createNewTeam($name, $dest);
+                    Team_Model::addNewTeam($name, $dest);
                 }
 
             } else {

@@ -8,9 +8,9 @@
 
 session_start();
 
-require(dirname(__DIR__) . '/model/NewTourn_Model.php');
+require(dirname(__DIR__) . '/model/Tournament_Model.php');
 
-class NewTourn_Controller extends NewTourn_Model {
+class NewTourn_Controller {
     private function printForm() {
         try {
             $CSRF_token = bin2hex(random_bytes(32));
@@ -28,15 +28,16 @@ class NewTourn_Controller extends NewTourn_Model {
                 $name = htmlentities($_POST['name']);
                 $nb_teams = htmlentities($_POST['nb_teams']);
 
-                if(!$this->verifyAvailabilityName($name)) {
+                if(!Tournament_Model::verifyAvailabilityName($name)) {
                     $this->printForm();
                     exit();
                 }
 
-                $this->createNewTournament($name, $nb_teams);
+                Tournament_Model::addNewTournament($name, $nb_teams);
 
             } else {
-                $this->printForm(); // TODO Add error message
+                $this->printForm();
+                // TODO Add error message
             }
         } else {
             $this->printForm();

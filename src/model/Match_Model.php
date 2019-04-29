@@ -23,17 +23,60 @@ class Match_Model {
     public function getTeam1Score() { return $this->team1_score; }
     public function getTeam2Score() { return $this->team2_score; }
 
-    public function setMatchId($match_id) { $this->match_id = $match_id; }
-    public function setDayId($day_id) { $this->day_id = $day_id; }
-    public function setTeam1Id($team1_id) { $this->team1_id = $team1_id; }
-    public function setTeam2Id($team2_id) { $this->team2_id = $team2_id; }
-    public function setTeam1Score($team1_score) { $this->team1_score = $team1_score; }
-    public function setTeam2Score($team2_score) { $this->team2_score = $team2_score; }
+    public function getWinnerTeamId() {
+        if ($this->getTeam1Score() - $this->getTeam2Score() > 0) {
+            return $this->getTeam1Id();
+        } elseif ($this->getTeam2Score() - $this->getTeam1Score() > 0) {
+            return $this->getTeam2Id();
+        }
+
+        return null;
+    }
+
+    public function setMatchId($match_id) { $this->match_id = (int)$match_id; }
+    public function setDayId($day_id) { $this->day_id = (int)$day_id; }
+    public function setTeam1Id($team1_id) { $this->team1_id = (int)$team1_id; }
+    public function setTeam2Id($team2_id) { $this->team2_id = (int)$team2_id; }
+    public function setTeam1Score($team1_score) { $this->team1_score = (int)$team1_score; }
+    public function setTeam2Score($team2_score) { $this->team2_score = (int)$team2_score; }
 
     public static function newMatchDB($day_id, $team1_id, $team2_id) {
         $dbModel = new DB_Model();
 
         $query = $dbModel->getConnection()->prepare("INSERT INTO `match` (day_id, team1_id, team2_id) VALUES (:day_id, :team1_id, :team2_id)");
         $query->execute(array(':day_id' => "$day_id", ':team1_id' => "$team1_id", ':team2_id' => "$team2_id"));
+    }
+
+    public static function loadFromArray($matchInfo = array()) {
+        $match = new self();
+        $match->hydrate($matchInfo);
+
+        return $match;
+    }
+
+    public function hydrate(array $match) {
+        if(isset($match['match_id'])) {
+            $this->setMatchId($match['match_id']);
+        }
+
+        if(isset($match['day_id'])) {
+            $this->setDayId($match['day_id']);
+        }
+
+        if(isset($match['team1_id'])) {
+            $this->setTeam1Id($match['team1_id']);
+        }
+
+        if(isset($match['team2_id'])) {
+            $this->setTeam2Id($match['team2_id']);
+        }
+
+        if(isset($match['team1_score'])) {
+            $this->setTeam1Score($match['team1_score']);
+        }
+
+        if(isset($match['team2_score'])) {
+            $this->setTeam2Score($match['team2_score']);
+        }
     }
 }

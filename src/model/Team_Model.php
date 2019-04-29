@@ -6,6 +6,8 @@
  * Time: 18:56
  */
 
+require_once('DB_Model.php');
+
 class Team_Model {
     private $team_id;
     private $name;
@@ -36,9 +38,9 @@ class Team_Model {
 
         $query = $dbModel->getConnection()->prepare("SELECT * FROM team WHERE team_id=$team_id");
         $query->execute();
-        $tournament = $query->fetch(PDO::FETCH_ASSOC);
+        $team = $query->fetch(PDO::FETCH_ASSOC);
 
-        $this->hydrate($tournament);
+        $this->hydrate($team);
     }
 
     public function hydrate(array $team) {
@@ -62,4 +64,27 @@ class Team_Model {
     public function setTeamId($team_id) { $this->team_id = $team_id; }
     public function setName($name) { $this->name = $name; }
     public function setPicturePath($picture_path) { $this->picture_path = $picture_path; }
+
+    public static function getTeamNameByID($team_id) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT name FROM team WHERE team_id=$team_id");
+        $query->execute();
+        $team = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $team['name'];
+    }
+
+    public static function verifyAvailabilityName($name) {
+        $dbModel = new DB_Model();
+
+        return $dbModel->verifyAvailabilityName($name, 'team');
+    }
+
+    public static function addNewTeam($name, $picture_path) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare('INSERT INTO team (name, picture_path) VALUES (:name, :picture_path)');
+        $query->execute(array(':name' => "$name", ':picture_path' => "$picture_path"));
+    }
 }
