@@ -9,4 +9,5 @@
 require_once(dirname(dirname(__DIR__)) . '/src/controller/EditTourn_Controller.php');
 
 $EditTourn_Controller = new EditTourn_Controller();
+$EditTourn_Controller->checkTournamentEdit();
 $EditTourn_Controller->printView();

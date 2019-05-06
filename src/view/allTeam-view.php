@@ -22,9 +22,12 @@ foreach ($teamList as $team) {
         "<td>" . $team->getName() . "</td>" .
         "<td>" . $team->getPicturePath() . "</td>";
 
-    echo "<td>";
-    echo '<a href="view-admin.php?action=deleteStudent&id=' . $team_id . '" style="text-decoration: none">Suppr </a>' .
-        '<a href="view-edit_etudiant.php?action=getStudent&id=' . $team_id . '" style="text-decoration: none"> Edit </a>';
+    echo "<td>" .
+        '<form method="POST" action="edit_team.php">
+            <input type="hidden" name="team_id" value=' . $team_id . '>
+            <input type="submit" value="Edit">
+        </form>' .
+        '<a href="" style="text-decoration: none">Suppr </a>';
 
     echo "</td>" . "</tr>";
 }

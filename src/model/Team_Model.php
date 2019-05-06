@@ -16,10 +16,10 @@ class Team_Model {
     public function __construct() {}
 
     public static function getByID($team_id) {
-        $tournament = new self();
-        $tournament->loadByID($team_id);
+        $team = new self();
+        $team->loadByID($team_id);
 
-        return $tournament;
+        return $team;
     }
 
     public static function getByName($name) {
@@ -27,10 +27,10 @@ class Team_Model {
     }
 
     public static function loadFromArray($teamInfo = array()) {
-        $tournament = new self();
-        $tournament->hydrate($teamInfo);
+        $team = new self();
+        $team->hydrate($teamInfo);
 
-        return $tournament;
+        return $team;
     }
 
     protected function loadByID($team_id) {

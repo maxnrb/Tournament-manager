@@ -16,7 +16,9 @@ require(dirname(__DIR__) . '/model/UtilFunc_Model.php');
 class EditTourn_Controller {
     private $tournament;
 
-    public function __construct() {
+    public function __construct() {}
+
+    public function checkTournamentEdit() {
         if ( isset($_POST['tournament_id']) ) {
             // TODO Verif security form
 
@@ -31,7 +33,7 @@ class EditTourn_Controller {
     }
 
     function printView() {
-        if (isset($_POST['team_id']) ) {
+        if ( isset($_POST['team_id']) ) {
             // TODO Add verif if team already add
             // TODO verif security form
 
