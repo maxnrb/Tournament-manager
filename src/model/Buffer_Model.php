@@ -37,7 +37,7 @@ class Buffer_Model {
         $dbModel = new DB_Model();
 
         $query = $dbModel->getConnection()->prepare("INSERT INTO buffer_teams VALUES (:tournament_id, :team_id)");
-        $query->execute(array(':tournament_id' => $tournament_id, ':team_id' => "$team_id"));
+        return $query->execute(array(':tournament_id' => $tournament_id, ':team_id' => "$team_id"));
     }
 
     public static function getNbAddTeam($tournament_id) {

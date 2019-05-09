@@ -9,5 +9,6 @@
 require_once(dirname(dirname(__DIR__)) . '/src/controller/EditTeam_Controller.php');
 
 $editTeam_Controller = new EditTeam_Controller();
+$editTeam_Controller->checkEdition();
 $editTeam_Controller->checkTeamEdit();
 $editTeam_Controller->printView();

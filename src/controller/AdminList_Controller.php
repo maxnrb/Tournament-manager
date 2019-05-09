@@ -6,8 +6,10 @@
  * Time: 14:14
  */
 
-require(dirname(__DIR__) . '/model/AdminList_Model.php');
-
+spl_autoload_register(function($className) {
+    $dir = strtolower(substr(strrchr($className, '_'), 1));
+    require_once dirname(dirname(__DIR__)) . '/src/' . $dir . "/" . $className . '.php';
+});
 
 class AdminList_Controller extends AdminList_Model
 {

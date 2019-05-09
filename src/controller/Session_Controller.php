@@ -6,8 +6,10 @@
  * Time: 22:20
  */
 
-require(dirname(__DIR__) . '/model/Session_Model.php');
-require(dirname(__DIR__) . '/model/UtilFunc_Model.php');
+spl_autoload_register(function($className) {
+    $dir = strtolower(substr(strrchr($className, '_'), 1));
+    require_once dirname(dirname(__DIR__)) . '/src/' . $dir . "/" . $className . '.php';
+});
 
 class Session_Controller {
     private $sessionModel;
@@ -24,8 +26,12 @@ class Session_Controller {
     }
 
     public function protectedPage() {
+        $login_Controller = new Login_Controller();
+        $login_Controller->controlForm();
+
         if(!Session_Model::getLoginStat()) {
-            require_once(dirname(__DIR__).'/view/beConnected-view.php');
+            $login_Controller->printLoginView();
+
             die();
         }
     }

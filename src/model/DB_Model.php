@@ -37,6 +37,18 @@ class DB_Model extends DB_Info {
         }
     }
 
+    public function editProperty($id, $tableName, $propertyName, $value) {
+        $id_name = $tableName . '_id';
+        $query = $this->getConnection()->prepare("UPDATE $tableName SET $propertyName='$value' WHERE $id_name='$id'");
+        $query->execute();
+    }
+
+    public function deleteLineById($id, $tableName) {
+        $id_name = $tableName . '_id';
+        $query = $this->getConnection()->prepare("DELETE FROM $tableName WHERE $id_name='$id'");
+        return $query->execute();
+    }
+
     public function __destruct() {
         $this->connection = null;
     }

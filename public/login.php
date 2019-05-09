@@ -14,5 +14,6 @@ if(Session_Model::getLoginStat()) {
     UtilFunc_Model::redirect('/Tournament-manager/public/admin/');
 }
 
-$loginController = new Login_Controller();
-$loginController->controlForm();
+$login_Controller = new Login_Controller();
+$login_Controller->controlForm(true);
+$login_Controller->printLoginView();

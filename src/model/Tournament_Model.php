@@ -12,6 +12,7 @@ class Tournament_Model {
     private $tournament_id;
     private $name;
     private $nb_teams;
+    private $status;
 
     public function __construct() {}
 
@@ -55,15 +56,22 @@ class Tournament_Model {
         if(isset($tournament['nb_teams'])) {
             $this->setNbTeams($tournament['nb_teams']);
         }
+
+        if(isset($tournament['status'])) {
+            $this->setStatus($tournament['status']);
+        }
+
     }
 
     public function setTournamentId($tournament_id) { $this->tournament_id = $tournament_id; }
     public function setName($name) { $this->name = $name; }
     public function setNbTeams($nb_teams) { $this->nb_teams = $nb_teams; }
+    public function setStatus($status) { $this->status = $status; }
 
     public function getTournamentId() { return $this->tournament_id; }
     public function getName() { return $this->name; }
     public function getNbTeams() { return $this->nb_teams; }
+    public function getStatus() { return $this->status; }
 
 
     public static function editTournamentName($tournament_id, $newName) {
@@ -83,17 +91,84 @@ class Tournament_Model {
         return $data['nb_teams'];
     }
 
-    public static function setTournamentGenerated($tournament_id) {
+    public static function getStatusByID($tournament_id) {
         $dbModel = new DB_Model();
 
-        $query = $dbModel->getConnection()->prepare("UPDATE tournament SET generate=true WHERE tournament_id='$tournament_id'");
+        $query = $dbModel->getConnection()->prepare("SELECT status FROM tournament WHERE tournament_id='$tournament_id'");
+        $query->execute();
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $data['status'];
+    }
+
+    private static function getMsgByStatus($status) {
+        switch ($status) {
+            case 0 :
+                return array("msg" => "Add Teams", "btn" => "info");
+                break;
+            case 1 :
+                return array("msg" => "Generate Days", "btn" => "danger");
+                break;
+            case 2 :
+                return array("msg" => "Finished", "btn" => "success");
+                break;
+            case $status >= 11 :
+                $msg = "In Progress : D" . ($status-10);
+                return array("msg" => "$msg", "btn" => "warning");
+                break;
+        }
+
+        return null;
+        // 0 : Tournament created -> add teams
+        // 1 : Max teams added -> ready to generate
+        // 2 : Tournament finished
+        //
+        // 11 -> Inf : n-10 = next day to play
+    }
+
+    public function getStatusMsg() {
+        return self::getMsgByStatus($this->status);
+    }
+
+    public static function getTournamentStatusMsg($tournament_id) {
+        return self::getMsgByStatus( self::getStatusByID($tournament_id) );
+    }
+
+    public static function incrementStatus($tournament_id) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT status FROM tournament WHERE tournament_id='$tournament_id'");
+        $query->execute();
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        $status = $data['status'];
+        $nbDays = Day_Model::getNbDays($tournament_id);
+
+        switch ($status) {
+            case 0 :
+                $status++;
+                break;
+            case 1 :
+                $status = 11;
+                break;
+            case $status > 10 AND $status-10 < $nbDays :
+                $status++;
+                break;
+            case $status-10 == $nbDays :
+                $status = 2;
+                break;
+        }
+
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("UPDATE tournament SET status='$status' WHERE tournament_id='$tournament_id'");
         $query->execute();
     }
 
     public static function getGenerationStat($tournament_id) {
         $dbModel = new DB_Model();
 
-        $query = $dbModel->getConnection()->prepare("SELECT generate FROM tournament WHERE tournament_id='$tournament_id'");
+        $query = $dbModel->getConnection()->prepare("SELECT status FROM tournament WHERE tournament_id='$tournament_id'");
         $query->execute();
         $data = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -110,6 +185,12 @@ class Tournament_Model {
         $dbModel = new DB_Model();
 
         $query = $dbModel->getConnection()->prepare('INSERT INTO tournament (name, nb_teams) VALUES (:name, :nb_teams)');
-        $query->execute(array(':name' => "$name", ':nb_teams' => "$nb_teams"));
+        return $query->execute(array(':name' => "$name", ':nb_teams' => "$nb_teams"));
+    }
+
+    public static function deleteById($tournament_id) {
+        $dbModel = new DB_Model();
+
+        return $dbModel->deleteLineById($tournament_id, 'tournament');
     }
 }

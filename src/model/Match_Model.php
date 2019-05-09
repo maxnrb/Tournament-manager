@@ -13,8 +13,8 @@ class Match_Model {
     private $day_id;
     private $team1_id;
     private $team2_id;
-    private $team1_score;
-    private $team2_score;
+    private $team1_score = null;
+    private $team2_score = null;
 
     public function getMatchId() { return $this->match_id; }
     public function getDayId() { return $this->day_id; }

@@ -6,13 +6,12 @@
  * Time: 09:38
  */
 
-require(dirname(__DIR__) . '/model/Tournament_Model.php');
-
 session_start();
 
-require(dirname(__DIR__) . '/controller/TeamList_Controller.php');
-require(dirname(__DIR__) . '/model/UtilFunc_Model.php');
-
+spl_autoload_register(function($className) {
+    $dir = strtolower(substr(strrchr($className, '_'), 1));
+    require_once dirname(dirname(__DIR__)) . '/src/' . $dir . "/" . $className . '.php';
+});
 class EditTourn_Controller {
     private $tournament;
 

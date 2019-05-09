@@ -6,8 +6,10 @@
  * Time: 09:15
  */
 
-require_once(dirname(__DIR__) . '/model/TeamList_Model.php');
-
+spl_autoload_register(function($className) {
+    $dir = strtolower(substr(strrchr($className, '_'), 1));
+    require_once dirname(dirname(__DIR__)) . '/src/' . $dir . "/" . $className . '.php';
+});
 if (session_status() == PHP_SESSION_NONE) { session_start(); }
 
 class TeamList_Controller {
@@ -18,28 +20,28 @@ class TeamList_Controller {
         $this->teamList_Model = new TeamList_Model();
     }
 
+    public function actionsController() {
+        if( isset($_POST['action']) && isset($_POST['team_id']) ) {
+
+            if($_POST['action'] == "delete") {
+                Team_Model::deleteById($_POST['team_id']);
+            }
+        }
+    }
+
     public function printAllTeams() {
         $this->teamList_Model->loadAllTeams();
         $teamList = $this->teamList_Model->getTeamList();
 
         if ($teamList != null) {
-            require_once(dirname(__DIR__) . '/view/allTeam-view.php');
-        } else {
-            echo "Aucune équipe !";
-        }
-    }
+            try {
+                $CSRF_token = bin2hex(random_bytes(32));
+                $_SESSION['CSRF_token'] = $CSRF_token;
+            } catch (Exception $e) {
+                // TODO : Add action
+            }
 
-    public function printTeamAndBuff() {
-        $this->teamList_Model->loadAllTeams();
-        $this->teamList_Model->parseFromBufferTeams( $_SESSION['edit_tournament_id'] );
-
-        $teamList = $this->teamList_Model->getTeamList();
-        $addTeamList = $this->teamList_Model->getAddTeamList();
-
-        var_dump($addTeamList);
-
-        if ($teamList != null) {
-            require_once(dirname(__DIR__) . '/view/teamAndBuff-view.php');
+            require_once(dirname(__DIR__) . '/view/admin/team-view.php');
         } else {
             echo "Aucune équipe !";
         }

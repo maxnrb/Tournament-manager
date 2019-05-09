@@ -87,4 +87,16 @@ class Team_Model {
         $query = $dbModel->getConnection()->prepare('INSERT INTO team (name, picture_path) VALUES (:name, :picture_path)');
         $query->execute(array(':name' => "$name", ':picture_path' => "$picture_path"));
     }
+
+    public static function editTeamName($team_id, $newName) {
+        $dbModel = new DB_Model();
+
+        $dbModel->editProperty($team_id, 'team', 'name', $newName);
+    }
+
+    public static function deleteById($team_id) {
+        $dbModel = new DB_Model();
+
+        $dbModel->deleteLineById($team_id, 'team');
+    }
 }

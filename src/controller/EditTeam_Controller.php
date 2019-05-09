@@ -6,8 +6,10 @@
  * Time: 22:27
  */
 
-require(dirname(__DIR__) . '/model/Team_Model.php');
-
+spl_autoload_register(function($className) {
+    $dir = strtolower(substr(strrchr($className, '_'), 1));
+    require_once dirname(dirname(__DIR__)) . '/src/' . $dir . "/" . $className . '.php';
+});
 session_start();
 
 class EditTeam_Controller {
@@ -30,7 +32,31 @@ class EditTeam_Controller {
         }
     }
 
-    public function printView() {
+    public function checkEdition() {
+        if( isset($_POST['edition_id']) ) {
+            if($_POST['edition_id'] == $_SESSION['edit_team_id']) {
 
+                if($_POST['name'] != $_SESSION['team_name']) {
+                    Team_Model::editTeamName($_SESSION['edit_team_id'], $_POST['name']);
+                }
+
+                if($_POST['picturePath'] != $_SESSION['picturePath_team']) {
+
+                }
+
+            }
+        }
+    }
+
+    public function printView() {
+        $name = $this->team->getName();
+        $picturePath = $this->team->getPicturePath();
+        $edit_team_id = $this->team->getTeamId();
+        $CSRF_token = 0;
+
+        $_SESSION['team_name'] = $name;
+        $_SESSION['picturePath_team'] = $picturePath;
+
+        require_once(dirname(__DIR__) . '/view/editTeam-view.php');
     }
 }

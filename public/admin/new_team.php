@@ -6,7 +6,8 @@
  * Time: 09:01
  */
 
-require_once(dirname(dirname(__DIR__)) . '/src/controller/NewTeam_Controller.php');
+spl_autoload_register(function($className) { require_once dirname(__DIR__) . '/src/controller/' . $className . '.php'; });
 
 $newTeamController = new NewTeam_Controller();
 $newTeamController->controlForm();
+$newTeamController->printForm();

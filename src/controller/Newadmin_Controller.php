@@ -8,11 +8,10 @@
 
 session_start();
 
-require_once(dirname(__DIR__) . '/model/DB_Model.php');
-require(dirname(__DIR__) . '/model/UtilFunc_Model.php');
-require(dirname(__DIR__) . '/model/NewAdmin_Model.php');
-
-
+spl_autoload_register(function($className) {
+    $dir = strtolower(substr(strrchr($className, '_'), 1));
+    require_once dirname(dirname(__DIR__)) . '/src/' . $dir . "/" . $className . '.php';
+});
 
 class Newadmin_Controller extends NewAdmin_Model {
     public $newAdminModel;

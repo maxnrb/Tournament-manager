@@ -12,6 +12,13 @@ require_once('Match_Model.php');
 class MatchList_Model {
     private $matchList = array();
 
+    public static function getByDayID($day_ID) {
+        $matchList_Model = new self();
+
+        $matchList_Model->loadByDayID($day_ID);
+        return $matchList_Model;
+    }
+
     public function hydrate($matchArray = array()) {
         if ($matchArray != null) {
             foreach ($matchArray as $match) {

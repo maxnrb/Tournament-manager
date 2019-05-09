@@ -26,4 +26,14 @@ class Day_Model {
 
         return $data['day_id'];
     }
+
+    public static function getNbDays($tournament_id) {
+        $dbModel = new DB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT COUNT(*) AS nb FROM day WHERE tournament_id='$tournament_id'");
+        $query->execute();
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $data['nb'];
+    }
 }
