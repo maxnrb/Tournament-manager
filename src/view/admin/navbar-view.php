@@ -46,7 +46,7 @@
             <li><a class="nav-link" href="index.php"><i class="fas fa-home"></i> <span>Admin home</span></a></li>
             <li><a class="nav-link" href="tournament.php"><i class="fas fa-trophy"></i> <span>Tournament</span></a></li>
             <li><a class="nav-link" href="team.php"><i class="fas fa-futbol"></i> <span>Team</span></a></li>
-            <li><a class="nav-link" href="admin_list.php"><i class="fas fa-users"></i> <span>User</span></a></li>
+            <li><a class="nav-link" href="admin.php"><i class="fas fa-users"></i> <span>User</span></a></li>
 
 
         </ul>

@@ -11,12 +11,12 @@ spl_autoload_register(function($className) {
     require_once dirname(dirname(__DIR__)) . '/src/' . $dir . "/" . $className . '.php';
 });
 
-$sessionController = new Session_Controller();
-$sessionController->protectedPage();
-$sessionController->checkDisconnect();
+$session_Controller = new Session_Controller();
+$session_Controller->protectedPage();
+$session_Controller->checkDisconnect();
 
-$tournamentList_Controller = new TournamentList_Controller();
-$tournamentList_Controller->newTournamentController();
-$tournamentList_Controller->actionsController();
-$tournamentList_Controller->matchActionsController();
-$tournamentList_Controller->viewController();
+$tournament_Controller = new Tournament_Controller();
+$tournament_Controller->newTournamentController();
+$tournament_Controller->actionsController();
+$tournament_Controller->matchActionsController();
+$tournament_Controller->viewController();

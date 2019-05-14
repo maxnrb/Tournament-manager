@@ -6,7 +6,7 @@
  * Time: 09:15
  */
 
-require_once('DB_Model.php');
+require_once('ConnectionDB_Model.php');
 require_once('Team_Model.php');
 require_once('BufferList_Model.php');
 
@@ -16,8 +16,10 @@ class TeamList_Model {
     private $teamList = array();
     private $addTeamList = array();
 
+    private $associativeName = array();
+
     public function loadAllTeams() {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT * FROM team");
         $query->execute();
@@ -26,8 +28,20 @@ class TeamList_Model {
         $this->hydrate($data);
     }
 
+    public function loadAssociativeName() {
+        $dbModel = new ConnectionDB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT team_id, name FROM team");
+        $query->execute();
+        $teamList = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($teamList as $team) {
+            $this->associativeName[ $team['team_id'] ] = $team['name'];
+        }
+    }
+
     public function loadOnlyBufferTeams($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
         $this->bufferList_Model = new BufferList_Model();
 
         $this->bufferList_Model->loadByTournamentId($tournament_id);
@@ -80,6 +94,10 @@ class TeamList_Model {
                 }
             }
         }
+    }
+
+    public function searchNameById($team_id) {
+        return $this->associativeName[$team_id];
     }
 
 }

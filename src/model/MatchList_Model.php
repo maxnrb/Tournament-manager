@@ -6,7 +6,7 @@
  * Time: 00:14
  */
 
-require_once('DB_Model.php');
+require_once('ConnectionDB_Model.php');
 require_once('Match_Model.php');
 
 class MatchList_Model {
@@ -32,7 +32,7 @@ class MatchList_Model {
     }
 
     public function loadByDayID($day_ID) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT * FROM `match` WHERE day_id=$day_ID");
         $query->execute();
@@ -51,5 +51,36 @@ class MatchList_Model {
         }
 
         return null;
+    }
+
+    public function clearList() {
+        $this->matchList = null;
+    }
+
+
+    public function loadByDayList(&$dayList) {
+        $dbModel = new ConnectionDB_Model();
+
+        $statement = "SELECT * FROM `match` WHERE ";
+
+        $nbPlayDay = count($dayList);
+        $count = 1;
+
+        foreach ($dayList as $day) {
+            $day_id = $day['day_id'];
+
+            $statement = $statement . "day_id=$day_id";
+
+            if($count < $nbPlayDay) {
+                $statement = $statement . " OR ";
+                $count++;
+            }
+        }
+
+        $query = $dbModel->getConnection()->prepare($statement);
+        $query->execute();
+        $matchArray = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->hydrate($matchArray);
     }
 }

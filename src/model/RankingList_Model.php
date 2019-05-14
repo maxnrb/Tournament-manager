@@ -12,7 +12,7 @@ require_once('Team_Model.php');
 
 class RankingList_Model {
     private $matchList_Model;
-    private $rankingList = array();
+    private $rankingList = array();     // Contain Ranking_Model objects
 
     public function getRankingList() { return $this->rankingList; }
 

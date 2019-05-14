@@ -47,7 +47,7 @@ class PlayDay_Controller {
         if($status >= 11) {
             $dayNumber = $status - 10;
 
-            $dbModel = new DB_Model();
+            $dbModel = new ConnectionDB_Model();
 
             $query = $dbModel->getConnection()->prepare("SELECT day_id FROM day WHERE tournament_id='$tournament_id' && dayNumber='$dayNumber'");
             $query->execute();

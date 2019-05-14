@@ -34,16 +34,26 @@ class Buffer_Model {
     }
 
     public static function addBufferTeam($tournament_id, $team_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("INSERT INTO buffer_teams VALUES (:tournament_id, :team_id)");
         return $query->execute(array(':tournament_id' => $tournament_id, ':team_id' => "$team_id"));
     }
 
     public static function getNbAddTeam($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT COUNT(*) AS nb FROM buffer_teams WHERE tournament_id='$tournament_id'");
+        $query->execute();
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $data['nb'];
+    }
+
+    public static function getNbTournaments($team_id) {
+        $dbModel = new ConnectionDB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT COUNT(*) AS nb FROM buffer_teams WHERE team_id='$team_id'");
         $query->execute();
         $data = $query->fetch(PDO::FETCH_ASSOC);
 

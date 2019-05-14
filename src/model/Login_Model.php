@@ -6,11 +6,11 @@
  * Time: 22:49
  */
 
-require_once('DB_Model.php');
+require_once('ConnectionDB_Model.php');
 
 class Login_Model {
     public function getDataUser($username) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT * FROM admin WHERE username =?");
         $query->execute(array($username));

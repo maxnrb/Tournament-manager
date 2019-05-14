@@ -29,6 +29,9 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
             <section class="section">
                 <div class="section-header">
                     <h1>Home</h1>
+                    <div class="section-header-breadcrumb">
+                        <div class="breadcrumb-item active" aria-current="page"><i class="fas fa-user"></i> Admin Home</a></div>
+                    </div>
                 </div>
 
                 <div class="section-body">

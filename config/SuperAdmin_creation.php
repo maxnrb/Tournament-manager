@@ -7,10 +7,10 @@
  * @param string $password
  */
 
-require_once(dirname(__DIR__) . '/src/model/DB_Model.php');
+require_once(dirname(__DIR__) . '/src/model/ConnectionDB_Model.php');
 
 function createSuperAdmin($password = '123456') {
-    $dbModel = new DB_Model();
+    $dbModel = new DB_Connection_Model();
 
     $query = $dbModel->getConnection()->prepare("SELECT * FROM admin WHERE username =?");
     $query->execute(array('admin'));

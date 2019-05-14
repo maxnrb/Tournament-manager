@@ -27,64 +27,112 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
 
         <?php include "navbar-view.php";?>
 
-
         <!-- Main Content -->
         <div class="main-content">
             <section class="section">
                 <div class="section-header">
                     <h1>Team</h1>
+                    <div class="section-header-breadcrumb">
+                        <div class="breadcrumb-item"><a href="index.php"><i class="fas fa-user"></i> Admin</a></div>
+                        <div class="breadcrumb-item active" aria-current="page"><i class="fas fa-futbol"></i> Team</a></div>
+                    </div>
                 </div>
 
                 <div class="section-body">
 
                     <div class="row">
                         <div class="col-12">
-                            <div class="card card-primary">
 
-                                <script>
-                                    document.write("<form class=\"needs-validation\"  novalidate=\"\" action='' method=\"POST\" enctype=\"multipart/form-data\">");
-                                </script>
+                            <?php if ($teamEdition == true) { ?>
+                                <div class="card card-warning">
+                                        <form action='' method="POST" enctype="multipart/form-data">
 
-                                <noscript>
-                                    <form class="needs-validation" action='' method="POST" enctype="multipart/form-data">
-                                </noscript>
+                                    <div class="card-header">
+                                        <h4>Edit team :</h4>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="form-row">
+
+                                            <input type="hidden" name="CSRF_token" value="<?php echo $CSRF_token; ?>">
+                                            <input type="hidden" name="form" value="edit">
+
+                                            <div class="form-group col-md-6">
+                                                <input type="text" name="name" class="form-control" placeholder="<?php echo $teamName; ?>"/>
+                                                <label>Team name</label>
+                                            </div>
+
+                                            <div class="form-group col-md-auto">
+                                            <img alt="image" src="<?php echo BASE_URL . $team_picturePath; ?>" class="rounded" width="42" data-toggle="tooltip" title="Team logo">
+                                            </div>
+
+                                            <div class="form-group col-md">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile"
+                                                           name="logo" accept="image/png, image/jpeg">
+                                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                                </div>
+
+                                                <label>Logo</label>
+                                            </div>
+
+                                            <div class="my-1">
+                                                <button data-toggle="tooltip" title="Edit" type="submit" class="btn btn-icon btn-warning"><i class="fas fa-edit"></i></button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                            <?php } else { ?>
+                                <div class="card card-primary">
+
+                                    <script>
+                                        document.write("<form class=\"needs-validation\"  novalidate=\"\" action='' method=\"POST\" enctype=\"multipart/form-data\">");
+                                    </script>
+
+                                    <noscript>
+                                        <form class="needs-validation" action='' method="POST" enctype="multipart/form-data">
+                                    </noscript>
 
                                     <div class="card-header">
                                         <h4>Create new team :</h4>
                                     </div>
 
                                     <div class="card-body">
-                                            <div class="form-row">
+                                        <div class="form-row">
 
-                                                <input type="hidden" name="CSRF_token" value="<?php echo $CSRF_token; ?>">
+                                            <input type="hidden" name="CSRF_token" value="<?php echo $CSRF_token; ?>">
+                                            <input type="hidden" name="form" value="create">
 
-                                                <div class="form-group col-md-6">
-                                                    <input type="text" name="name" class="form-control" placeholder="Name" required/>
-                                                    <label>Team name</label>
-                                                    <div class="invalid-feedback">
-                                                        Choose a name !
-                                                    </div>
+                                            <div class="form-group col-md-6">
+                                                <input type="text" name="name" class="form-control" placeholder="Name" required/>
+                                                <label>Team name</label>
+                                                <div class="invalid-feedback">
+                                                    Choose a name !
                                                 </div>
-
-                                                <div class="form-group col-md">
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="customFile"
-                                                               name="logo" accept="image/png, image/jpeg" required>
-                                                        <label class="custom-file-label" for="customFile">Choose file</label>
-                                                    </div>
-
-                                                    <label>Logo</label>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-
-                                                <div class="my-1">
-                                                    <button data-toggle="tooltip" title="Create" type="submit" class="btn btn-icon btn-success"><i class="fas fa-plus"></i></button>
-                                                </div>
-
                                             </div>
+
+                                            <div class="form-group col-md">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile"
+                                                           name="logo" accept="image/png, image/jpeg" required>
+                                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                                </div>
+
+                                                <label>Logo</label>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="my-1">
+                                                <button data-toggle="tooltip" title="Create" type="submit" class="btn btn-icon btn-success"><i class="fas fa-plus"></i></button>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                </form>
-                            </div>
+                                    </form>
+                                </div>
+                            <?php } ?>
 
                             <div class="card card-primary">
                                 <div class="card-header">
@@ -115,12 +163,17 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
                                                         <img alt="image" src="<?php echo BASE_URL . $team_picturePath; ?>" class="rounded-circle" width="35" data-toggle="tooltip" title="Team logo">
                                                     </td>
                                                     <td><?php echo $team_name; ?></td>
-                                                    <td>X</td>
+                                                    <td>
+                                                        <?php if( isset($nbTournaments[$team_id]) ) {
+                                                            echo $nbTournaments[$team_id];
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
 
                                                     <td>
-                                                        <form method="POST" action="" style="display: inline-block;">
-                                                            <input type="hidden" name="team_id" value='<?php echo $team_id; ?>'>
-                                                            <input type="hidden" name="action" value="view">
+                                                        <form method="GET" action="" style="display: inline-block;">
+                                                            <input type="hidden" name="viewTeam" value='<?php echo $team_id; ?>'>
                                                             <button data-toggle="tooltip" title="View" type="submit" class="btn btn-icon btn-info"><i class="fas fa-eye"></i></button>
                                                         </form>
 
@@ -130,12 +183,17 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
                                                             <button data-toggle="tooltip" title="Edit" type="submit" class="btn btn-icon btn-primary"><i class="fas fa-edit"></i></button>
                                                         </form>
 
-                                                        <form method="POST" action="" style="display: inline-block;">
-                                                            <input type="hidden" name="team_id" value='<?php echo $team_id; ?>'>
-                                                            <input type="hidden" name="action" value="delete">
-                                                            <button data-toggle="tooltip" title="Delete" type="submit" class="btn btn-icon btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                                        </form>
+                                                        <?php if( isset($nbTournaments[$team_id]) ) { ?>
+                                                            <button class="btn btn-icon btn-outline-secondary" disabled><i class="far fa-trash-alt"></i></button>
 
+                                                        <?php } else { ?>
+                                                            <form method="POST" action="" style="display: inline-block;">
+                                                                <input type="hidden" name="team_id" value='<?php echo $team_id; ?>'>
+                                                                <input type="hidden" name="action" value="delete">
+                                                                <button data-toggle="tooltip" title="Delete" type="submit" class="btn btn-icon btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                            </form>
+
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
 

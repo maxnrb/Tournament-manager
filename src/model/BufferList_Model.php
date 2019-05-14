@@ -6,14 +6,14 @@
  * Time: 20:37
  */
 
-require_once('DB_Model.php');
+require_once('ConnectionDB_Model.php');
 require_once('Buffer_Model.php');
 
 class BufferList_Model {
     private $bufferList = array();
 
     public function loadAllBuffer() {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT * FROM buffer_teams");
         $query->execute();
@@ -23,13 +23,15 @@ class BufferList_Model {
     }
 
     public function loadByTournamentId($tournament_id) {
-        $dbModel = new DB_Model();
+        $connection = new ConnectionDB_Model();
 
-        $query = $dbModel->getConnection()->prepare("SELECT * FROM buffer_teams WHERE tournament_id=?");
-        $query->execute(array($tournament_id));
-        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        $this->hydrate( $connection->getAllById('buffer_teams', 'tournament_id', $tournament_id) );
+    }
 
-        $this->hydrate($data);
+    public function loadByTeamId($team_id) {
+        $connection = new ConnectionDB_Model();
+
+        $this->hydrate( $connection->getAllById('buffer_teams', 'team_id', $team_id) );
     }
 
     public function hydrate($buffers = array()) {
@@ -41,8 +43,20 @@ class BufferList_Model {
     }
 
     protected function addBuffer($buffer) {
-        $this->bufferList[ $buffer['team_id'] ] = Buffer_Model::loadFromArray($buffer);
+        $this->bufferList[] = Buffer_Model::loadFromArray($buffer);
     }
 
     public function getBufferList() { return $this->bufferList; }
+
+    public function getNbTournaments($team_id) {
+        $count = 0;
+
+        foreach ($this->bufferList as $buffer) {
+            if($buffer->getTeamId() == $team_id) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 }

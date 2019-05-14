@@ -10,7 +10,7 @@ class NewAdmin_Model
 {
 
     public function createAdmin($username, $hash) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("INSERT INTO admin (username, password) VALUES (:username, :hashPassword)");
         $query->execute(array(':username' => $username, ':hashPassword' => "$hash"));
@@ -18,7 +18,7 @@ class NewAdmin_Model
 
 
     public function getDataUser($username) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT * FROM admin WHERE username =?");
         $query->execute(array($username));

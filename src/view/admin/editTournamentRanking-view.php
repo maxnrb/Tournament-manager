@@ -25,13 +25,18 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
 
-        <?php include "navbar-view.php";?>
+        <?php //include "navbar-view.php";?>
 
         <!-- Main Content -->
         <div class="main-content">
             <section class="section">
                 <div class="section-header">
                     <h1>Edit tournament</h1>
+                    <div class="section-header-breadcrumb">
+                        <div class="breadcrumb-item"><a href="index.php"><i class="fas fa-user"></i> Admin</a></div>
+                        <div class="breadcrumb-item"><a href="tournament.php"><i class="fas fa-trophy"></i> Tournament</a></div>
+                        <div class="breadcrumb-item active" aria-current="page"><i class="fas fa-pencil-alt"></i> Edit - Ranking</a></div>
+                    </div>
                 </div>
 
                 <div class="section-body">
@@ -119,7 +124,68 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
                     </div>
 
 
+                    <?php $dayNumber = 0;
+                    if($rankingLists != null) {
+                        foreach ($rankingLists as $rankingList) { ?>
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h4>Match day <?php echo $dayNumber; ?> :</h4>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped display">
+                                            <thead>
+                                            <tr>
+                                                <th>Ranking</th>
+                                                <th>Team Id</th>
+                                                <th>Nb Point</th>
+                                                <th>Win Match</th>
+                                                <th>Loose Match</th>
+                                                <th>Draw Match</th>
+                                                <th>Goal Favor</th>
+                                                <th>Goal Against</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            <?php
+
+                                            $rankNb = 1;
+                                            foreach ($rankingList as $ranking) { ?>
+
+                                                <tr>
+                                                    <td><?php echo $rankNb; ?></td>
+                                                    <td><?php echo $ranking->getTeamId(); ?></td>
+                                                    <td><?php echo $ranking->getTeamPoint(); ?></td>
+                                                    <td><?php echo $ranking->getWinMatch(); ?></td>
+                                                    <td><?php echo $ranking->getLostMatch(); ?></td>
+                                                    <td><?php echo $ranking->getDrawMatch(); ?></td>
+                                                    <td><?php echo $ranking->getTotalGoalFavor(); ?></td>
+                                                    <td><?php echo $ranking->getTotalGoalDifference(); ?></td>
+
+                                                </tr>
+
+                                                <?php
+                                                $rankNb++;
+                                            }
+                                            ?>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                            $dayNumber++;
+                        }
+                    }?>
+
+
+
                 </div>
+
+
             </section>
         </div>
 

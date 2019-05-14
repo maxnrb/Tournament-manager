@@ -10,13 +10,12 @@ spl_autoload_register(function($className) {
     $dir = strtolower(substr(strrchr($className, '_'), 1));
     require_once dirname(dirname(__DIR__)) . '/src/' . $dir . "/" . $className . '.php';
 });
+
 $sessionController = new Session_Controller();
 $sessionController->protectedPage();
 $sessionController->checkDisconnect();
 
-$newTeam_Controller = new NewTeam_Controller();
-$newTeam_Controller->controlForm();
-
-$teamList_Controller = new TeamList_Controller();
-$teamList_Controller->actionsController();
-$teamList_Controller->printAllTeams();
+$team_Controller = new Team_Controller();
+$team_Controller->actionsController();
+$team_Controller->controlForm();
+$team_Controller->viewController();

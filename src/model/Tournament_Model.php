@@ -6,7 +6,7 @@
  * Time: 08:42
  */
 
-require_once('DB_Model.php');
+require_once('ConnectionDB_Model.php');
 
 class Tournament_Model {
     private $tournament_id;
@@ -35,7 +35,7 @@ class Tournament_Model {
     }
 
     protected function loadByID($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT * FROM tournament WHERE tournament_id=$tournament_id");
         $query->execute();
@@ -75,14 +75,14 @@ class Tournament_Model {
 
 
     public static function editTournamentName($tournament_id, $newName) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("UPDATE tournament SET name='$newName' WHERE tournament_id='$tournament_id'");
         $query->execute();
     }
 
     public static function getNbTeamsTournament($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT nb_teams FROM tournament WHERE tournament_id='$tournament_id'");
         $query->execute();
@@ -92,7 +92,7 @@ class Tournament_Model {
     }
 
     public static function getStatusByID($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT status FROM tournament WHERE tournament_id='$tournament_id'");
         $query->execute();
@@ -135,7 +135,7 @@ class Tournament_Model {
     }
 
     public static function incrementStatus($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT status FROM tournament WHERE tournament_id='$tournament_id'");
         $query->execute();
@@ -159,14 +159,14 @@ class Tournament_Model {
                 break;
         }
 
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("UPDATE tournament SET status='$status' WHERE tournament_id='$tournament_id'");
         $query->execute();
     }
 
     public static function getGenerationStat($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT status FROM tournament WHERE tournament_id='$tournament_id'");
         $query->execute();
@@ -176,20 +176,20 @@ class Tournament_Model {
     }
 
     public static function verifyAvailabilityName($name) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         return $dbModel->verifyAvailabilityName($name, 'tournament');
     }
 
     public static function addNewTournament($name, $nb_teams) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare('INSERT INTO tournament (name, nb_teams) VALUES (:name, :nb_teams)');
         return $query->execute(array(':name' => "$name", ':nb_teams' => "$nb_teams"));
     }
 
     public static function deleteById($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         return $dbModel->deleteLineById($tournament_id, 'tournament');
     }

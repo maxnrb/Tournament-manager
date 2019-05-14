@@ -6,7 +6,7 @@
  * Time: 03:19
  */
 
-require_once('DB_Model.php');
+require_once('ConnectionDB_Model.php');
 
 class Day_Model {
     private $day_id;
@@ -15,7 +15,7 @@ class Day_Model {
     private $played;
 
     public static function newDayDB($tournament_id, $dayNumber) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("INSERT INTO day (tournament_id, dayNumber) VALUES (:tournament_id, :dayNumber)");
         $query->execute(array(':tournament_id' => "$tournament_id", ':dayNumber' => "$dayNumber"));
@@ -28,7 +28,7 @@ class Day_Model {
     }
 
     public static function getNbDays($tournament_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("SELECT COUNT(*) AS nb FROM day WHERE tournament_id='$tournament_id'");
         $query->execute();

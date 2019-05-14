@@ -6,7 +6,7 @@
  * Time: 03:19
  */
 
-require_once('DB_Model.php');
+require_once('ConnectionDB_Model.php');
 
 class Match_Model {
     private $match_id;
@@ -41,7 +41,7 @@ class Match_Model {
     public function setTeam2Score($team2_score) { $this->team2_score = (int)$team2_score; }
 
     public static function newMatchDB($day_id, $team1_id, $team2_id) {
-        $dbModel = new DB_Model();
+        $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("INSERT INTO `match` (day_id, team1_id, team2_id) VALUES (:day_id, :team1_id, :team2_id)");
         $query->execute(array(':day_id' => "$day_id", ':team1_id' => "$team1_id", ':team2_id' => "$team2_id"));

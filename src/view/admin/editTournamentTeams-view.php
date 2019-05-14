@@ -32,6 +32,11 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
             <section class="section">
                 <div class="section-header">
                     <h1>Edit tournament</h1>
+                    <div class="section-header-breadcrumb">
+                        <div class="breadcrumb-item"><a href="index.php"><i class="fas fa-user"></i> Admin</a></div>
+                        <div class="breadcrumb-item"><a href="tournament.php"><i class="fas fa-trophy"></i> Tournament</a></div>
+                        <div class="breadcrumb-item active" aria-current="page"><i class="fas fa-pencil-alt"></i> Edit - Teams</a></div>
+                    </div>
                 </div>
 
                 <div class="section-body">

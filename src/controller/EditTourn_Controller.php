@@ -39,7 +39,7 @@ class EditTourn_Controller {
             Buffer_Model::addBufferTeam($this->tournament->getTournamentId(), $_POST['team_id']);
         }
 
-        $TeamList_Controller = new TeamList_Controller();
+        $TeamList_Controller = new Team_Controller();
         $TeamList_Controller->printTeamAndBuff();
     }
 
