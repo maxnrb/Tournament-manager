@@ -90,6 +90,32 @@ class Admin_Model {
         $dbModel = new ConnectionDB_Model();
 
         $query = $dbModel->getConnection()->prepare("INSERT INTO admin (username, password) VALUES (:username, :hashPassword)");
-        $query->execute(array(':username' => $username, ':hashPassword' => "$hash"));
+        return $query->execute(array(':username' => $username, ':hashPassword' => "$hash"));
+    }
+
+    public static function verifyAvailabilityUsername($username) {
+        $dbModel = new ConnectionDB_Model();
+
+        $query = $dbModel->getConnection()->prepare("SELECT count(*) FROM admin WHERE username =?");
+        $query->execute(array($username));
+        $data = $query->fetch();
+
+        if($data['count(*)'] != 0) {        // User name already used in bdd
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static function editUsername($admin_id, $newName) {
+        $dbModel = new ConnectionDB_Model();
+
+        return $dbModel->editProperty($admin_id, 'admin', 'username', $newName);
+    }
+
+    public static function editPassword($admin_id, $newPassword) {
+        $dbModel = new ConnectionDB_Model();
+
+        return $dbModel->editProperty($admin_id, 'admin', 'password', $newPassword);
     }
 }

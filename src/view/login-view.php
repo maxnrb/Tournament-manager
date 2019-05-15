@@ -43,7 +43,7 @@ define('BASE_URL', rtrim( dirname(dirname($_SERVER['SCRIPT_NAME'])) , '/public')
 
                     <div class="form-group">
                     <label for="text">Username</label>
-                    <input id="text" type="text" class="form-control" name="username" tabindex="1" required autofocus>
+                    <input id="text" type="text" class="form-control" name="loginUsername" tabindex="1" required autofocus>
                     <div class="invalid-feedback">
                       Please fill in your username !
                     </div>
@@ -53,7 +53,7 @@ define('BASE_URL', rtrim( dirname(dirname($_SERVER['SCRIPT_NAME'])) , '/public')
                     <div class="d-block">
                     	<label for="password" class="control-label">Password</label>
                     </div>
-                    <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+                    <input id="password" type="password" class="form-control" name="loginPassword" tabindex="2" required>
                     <div class="invalid-feedback">
                         Please fill in your password !
                     </div>

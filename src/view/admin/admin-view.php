@@ -58,22 +58,22 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
                                             <input type="hidden" name="form" value="edit">
 
                                             <div class="form-group col-md"  >
-                                                <input type="text" name="name" class="form-control" placeholder="<?php echo $this->admin_Model->getName(); ?>"/>
+                                                <input type="text" name="username" class="form-control" placeholder="<?php echo $this->admin_Model->getName(); ?>"/>
                                                 <label>Admin name</label>
                                             </div>
 
                                             <div class="form-group col-md-4">
-                                                <input type="password" id="inputPassword5" class="form-control" pattern=".{5,}" name="password" placeholder="Password" title="5 char min">
+                                                <input type="password" class="form-control" pattern=".{5,}" name="password" placeholder="Password" title="5 char min">
                                                 <label for="inputPassword5">Password</label>
                                             </div>
 
                                             <div class="form-group col-md-4">
-                                                <input type="password" id="inputPassword5" class="form-control" pattern=".{5,}" name="password" placeholder="Confirmation Password" title="5 char min">
+                                                <input type="password" class="form-control" pattern=".{5,}" name="confirmPassword" placeholder="Confirmation Password" title="5 char min">
                                                 <label for="inputPassword5">Confirmation password</label>
                                             </div>
 
                                             <div class="my-1">
-                                                <button data-toggle="tooltip" title="Create" type="submit" class="btn btn-icon btn-success"><i class="fas fa-plus"></i></button>
+                                                <button data-toggle="tooltip" title="Create" type="submit" class="btn btn-icon btn-warning"><i class="fas fa-edit"></i></button>
                                             </div>
 
                                         </div>
@@ -102,8 +102,8 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
                                             <input type="hidden" name="form" value="create">
 
                                             <div class="form-group col-md">
-                                                <input type="text" name="name" class="form-control" placeholder="Name" required/>
-                                                <label>Team name</label>
+                                                <input type="text" name="username" class="form-control" placeholder="Name" required/>
+                                                <label>Admin name</label>
                                                 <div class="invalid-feedback">
                                                     Choose a name !
                                                 </div>
@@ -111,12 +111,12 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
 
 
                                             <div class="form-group col-md-4">
-                                                <input type="password" id="inputPassword5" class="form-control" pattern=".{5,}" name="password" placeholder="Password" title="5 char min" required>
+                                                <input type="password" class="form-control" pattern=".{5,}" name="password" placeholder="Password" title="5 char min" required>
                                                 <label for="inputPassword5">Password</label>
                                             </div>
 
                                             <div class="form-group col-md-4">
-                                                <input type="password" id="inputPassword5" class="form-control" pattern=".{5,}" name="password" placeholder="Confirmation Password" title="5 char min" required>
+                                                <input type="password" class="form-control" pattern=".{5,}" name="confirmPassword" placeholder="Confirmation Password" title="5 char min" required>
                                                 <label for="inputPassword5">Confirmation password</label>
                                             </div>
 
@@ -160,11 +160,17 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
                                                             <button data-toggle="tooltip" title="Edit" type="submit" class="btn btn-icon btn-primary"><i class="fas fa-edit"></i></button>
                                                         </form>
 
-                                                        <form method="POST" action="" style="display: inline-block;">
-                                                            <input type="hidden" name="admin_id" value='<?php echo $admin_id; ?>'>
-                                                            <input type="hidden" name="action" value="delete">
-                                                            <button data-toggle="tooltip" title="Delete" type="submit" class="btn btn-icon btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                                        </form>
+                                                        <?php if( $admin_mane == 'admin') { ?>
+                                                            <button class="btn btn-icon btn-outline-secondary" disabled><i class="far fa-trash-alt"></i></button>
+
+                                                        <?php } else { ?>
+                                                            <form method="POST" action="" style="display: inline-block;">
+                                                                <input type="hidden" name="admin_id" value='<?php echo $admin_id; ?>'>
+                                                                <input type="hidden" name="action" value="delete">
+                                                                <button data-toggle="tooltip" title="Delete" type="submit" class="btn btn-icon btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                            </form>
+
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
 

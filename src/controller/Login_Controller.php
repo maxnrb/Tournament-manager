@@ -32,12 +32,12 @@ class Login_Controller {
     }
 
     public function controlForm($redirect = false) {
-        if( isset($_POST["username"]) && isset($_POST["password"]) ) {
+        if( isset($_POST["loginUsername"]) && isset($_POST["loginPassword"]) ) {
             // Verification of POST
             if( isset($_POST['CSRF_token']) && $_SESSION['CSRF_token'] == $_POST['CSRF_token'] ) {
                 // Verification of CRSF Token
-                $username = htmlentities($_POST['username']);
-                $password = htmlentities($_POST['password']);
+                $username = htmlentities($_POST['loginUsername']);
+                $password = htmlentities($_POST['loginPassword']);
 
                 $data = $this->loginModel->getDataUser($username);
 

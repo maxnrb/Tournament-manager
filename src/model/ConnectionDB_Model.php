@@ -30,7 +30,7 @@ class ConnectionDB_Model extends DB_Info {
         $query->execute(array($name));
         $data = $query->fetch();
 
-        if($data['count(*)'] != 0) {        // Team name already used in bdd
+        if($data['count(*)'] != 0) {        // Name already used in bdd
             return false;
         } else {
             return true;

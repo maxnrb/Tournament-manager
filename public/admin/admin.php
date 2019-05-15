@@ -11,4 +11,5 @@ $sessionController->checkDisconnect();
 
 $admin_Controller = new Admin_Controller();
 $admin_Controller->actionsController();
+$admin_Controller->controlForm();
 $admin_Controller->printAllAdmin();
