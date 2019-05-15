@@ -129,7 +129,11 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
                         foreach ($rankingLists as $rankingList) { ?>
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h4>Match day <?php echo $dayNumber; ?> :</h4>
+                                    <?php if($dayNumber == 0) {
+                                        echo '<h4>Global Ranking (every day played)</h4>';
+                                    } else {
+                                        echo '<h4>Day ' . $dayNumber . ' of ' . $nbDays . ' Ranking</h4>';
+                                    }?>
                                 </div>
 
                                 <div class="card-body">
@@ -138,7 +142,7 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
                                             <thead>
                                             <tr>
                                                 <th>Ranking</th>
-                                                <th>Team Id</th>
+                                                <th>Team Name</th>
                                                 <th>Nb Point</th>
                                                 <th>Win Match</th>
                                                 <th>Loose Match</th>
@@ -156,7 +160,7 @@ define('BASE_URL', dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))));
 
                                                 <tr>
                                                     <td><?php echo $rankNb; ?></td>
-                                                    <td><?php echo $ranking->getTeamId(); ?></td>
+                                                    <td><?php echo $this->teamList_Model->searchNameById($ranking->getTeamId()); ?></td>
                                                     <td><?php echo $ranking->getTeamPoint(); ?></td>
                                                     <td><?php echo $ranking->getWinMatch(); ?></td>
                                                     <td><?php echo $ranking->getLostMatch(); ?></td>

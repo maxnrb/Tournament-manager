@@ -19,6 +19,8 @@ class Ranking_Controller {
     private $rankingList_Model;
     private $rankingLists = array(); // Array of rankingList_Model : 1 rankingList = 1 tournament day
 
+    private $teamList_Model;
+
     public function __construct() {
         $this->matchList_Model = new MatchList_Model();
     }
@@ -34,7 +36,7 @@ class Ranking_Controller {
 
         $this->matchList_Model->loadByDayList($dayList);
         $matchList = $this->matchList_Model->getMatchList();
-        $this->rankingLists['global'] = new RankingList_Model();
+        $this->rankingLists[0] = new RankingList_Model();
 
 
         foreach ($dayList as $day) {
@@ -44,20 +46,25 @@ class Ranking_Controller {
 
         foreach ($matchList as $match) {
             $this->rankingLists[ $match->getDayId() ]->updateRankingList( $match->getTeam1Id() , $match->getTeam2Id() , $match->getTeam1Score() , $match->getTeam2Score() );
-            $this->rankingLists['global']->updateRankingList( $match->getTeam1Id() , $match->getTeam2Id() , $match->getTeam1Score() , $match->getTeam2Score() );
+            $this->rankingLists[0]->updateRankingList( $match->getTeam1Id() , $match->getTeam2Id() , $match->getTeam1Score() , $match->getTeam2Score() );
         }
 
         foreach ($this->rankingLists as $rank) {
             $rank->sortByTeamPoint($this->matchList_Model);
         }
 
+        $rankingLists[0] = $this->rankingLists[0]->getRankingList();
+
         foreach ($dayList as $day) {
             $day_id = $day['day_id'];
             $rankingLists[$day_id] = $this->rankingLists[$day_id]->getRankingList();
         }
 
-        $rankingLists[0] = $this->rankingLists['global']->getRankingList();
+        $nbDays = Day_Model::getNbDays($tournament_id);
+        $this->teamList_Model = new TeamList_Model();
+        $this->teamList_Model->loadAssociativeName();
 
-        require_once(dirname(__DIR__) . '/view/admin/editTournamentRanking-view.php');
+        //require_once(dirname(__DIR__) . '/view/admin/editTournamentRanking-view.php');
+        require_once('ranking_pdf.php');
     }
 }

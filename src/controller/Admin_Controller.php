@@ -17,8 +17,13 @@ class Admin_Controller {
 
             if($_POST['action'] == "delete") {
 
-                if
-                Admin_Model::deleteById($_POST['admin_id']);
+                if( $_POST['admin_id'] != 1 ) {
+                    Admin_Model::deleteById($_POST['admin_id']);
+
+                    iziToast_Model::printNotification('success', 'Username deleted');
+                } else {
+                    iziToast_Model::printNotification('error', 'You can not delete this SuperAdmin User');
+                }
             }
 
             elseif ($_POST['action'] == 'edit') {
@@ -73,10 +78,14 @@ class Admin_Controller {
 
                     if (!Admin_Model::verifyAvailabilityUsername($username)) {
                         iziToast_Model::printNotification('warning', 'Username already used ! Please choose another');
-                        exit();
+                        return;
                     }
 
-                    Admin_Model::editUsername($_SESSION['edit_admin_id'], $username);
+                    if ( Admin_Model::editUsername($_SESSION['edit_admin_id'], $username) ) {
+                        iziToast_Model::printNotification('success', 'Username edited !');
+                    } else {
+                        iziToast_Model::printNotification('error', 'Error during edition ! Please retry');
+                    }
                 }
 
                 if (isset($_POST['password']) AND isset($_POST['confirmPassword'])) {
